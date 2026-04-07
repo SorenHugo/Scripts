@@ -1,0 +1,30 @@
+name: 影视飓风Club签到
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # UTC时间，对应北京时间8点
+  workflow_dispatch:
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install axios
+
+      - name: Execute checkin
+        run: node 影视飓风club签到.js
+        env:
+          YSJFCS: ${{ secrets.YSJFCS }}
+
+      - name: Output execution result
+        if: always()
+        run: echo "签到任务已完成"
