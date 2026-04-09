@@ -290,7 +290,7 @@ async function main() {
     // 第一步：执行版本检测，不通过则直接退出
     await checkVersion();
 
-    logger.userInfo('========== 有赞签到脚本开始执行 ==========');
+    logger.userInfo('========== 影视飓风签到脚本开始执行 ==========');
     const userConfigList = parseYSJFCSConfig();
     if (userConfigList.length === 0) {
         logger.userError('无有效账号配置，脚本终止执行');
@@ -301,7 +301,7 @@ async function main() {
     for (let index = 0; index < userConfigList.length; index++) {
         const config = userConfigList[index];
         const accountNum = index + 1;
-        logger.userInfo(`\n========== 处理第${accountNum}个账号：${config.remark} ==========`);
+        logger.userInfo(`========== 处理第${accountNum}个账号：${config.remark} ==========`);
 
         try {
             if (!preCheckinAction1(config)) continue;
@@ -311,9 +311,11 @@ async function main() {
             const prePointsResult = await getMemberPoints(config);
             const prePoints = parsePointsBalance(prePointsResult);
             logger.userInfo(`${config.remark} - 签到前积分：${prePoints} 积分`);
+            await delay(Math.floor(Math.random() * 2000));
 
             // 获取活动信息
             await getActivity(config);
+            await delay(Math.floor(Math.random() * 2000));
 
             // 执行签到
             const checkinResult = await doCheckin(config);
@@ -322,6 +324,7 @@ async function main() {
             } else {
                 logger.userWarn(`${config.remark} - 签到失败：${checkinResult.body.msg || '未知原因'}`);
             }
+            await delay(Math.floor(Math.random() * 2000));
 
             // 签到后积分查询
             const postPointsResult = await getMemberPoints(config);
@@ -341,9 +344,10 @@ async function main() {
             logger.userError(`${config.remark} - 处理失败：${error.message}`);
             logger.devError(`失败详情：${error.stack}`);
         }
+        await delay(Math.floor(Math.random() * 10000));
     }
 
-    logger.userInfo('\n========== 有赞签到脚本执行完毕 ==========');
+    logger.userInfo('\========== 影视飓风签到脚本执行完毕 ==========');
 }
 
 // 启动脚本
