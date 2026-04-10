@@ -1,4 +1,4 @@
-name: 影视飓风Club签到
+name: 签到
 
 on:
   schedule:
@@ -18,12 +18,29 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install axios
+        run: |
+          npm install axios
+          npm install undici
 
-      - name: Execute checkin
-        run: node 影视飓风club签到.js
+      - name: Checkin mediastorm
+        run: node mediastorm.js
         env:
           YSJFCS: ${{ secrets.YSJFCS }}
+
+      - name: Checkin sharge
+        run: node sharge.js
+        env:
+          SHARGE: ${{ secrets.SHARGE }}
+        
+      - name: Checkin 58moto
+        run: node 58moto.js
+        env:
+          MTF: ${{ secrets.MTF }}
+
+      - name: Checkin icoke
+        run: node icoke.js
+        env:
+          ICOKE: ${{ secrets.ICOKE }}
 
       - name: Output execution result
         if: always()
