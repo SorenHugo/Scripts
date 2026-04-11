@@ -5,6 +5,9 @@ on:
     - cron: '0 0 * * *'  # UTC时间，对应北京时间8点
   workflow_dispatch:
 
+env:
+  PUSH_KEY: ${{ secrets.PUSH_KEY }}
+
 jobs:
   checkin:
     runs-on: ubuntu-latest
@@ -41,7 +44,3 @@ jobs:
         run: node icoke.js
         env:
           ICOKE: ${{ secrets.ICOKE }}
-
-      - name: Output execution result
-        if: always()
-        run: echo "签到任务已完成"
