@@ -38,8 +38,6 @@ const httpClient = {
 };
 
 const push_config = {
-    HITOKOTO: true, // 启用一言（随机句子）
-
     BARK_PUSH: '', // bark IP 或设备码，例：https://api.day.app/DxHcxxxxxRxxxxxxcm/
     BARK_ARCHIVE: '', // bark 推送是否存档
     BARK_GROUP: '', // bark 推送分组
@@ -194,13 +192,6 @@ const $ = {
     logErr: console.log,
 };
 
-async function one() {
-    const url = 'https://v1.hitokoto.cn/';
-    const res = await httpClient.request(url);
-    const body = await res.body.json();
-    return `${body.hitokoto}    ----${body.from}`;
-}
-
 function gotifyNotify(text, desp) {
     return new Promise((resolve) => {
         const { GOTIFY_URL, GOTIFY_TOKEN, GOTIFY_PRIORITY } = push_config;
@@ -298,16 +289,16 @@ function serverNotify(text, desp) {
             $.post(options, (err, resp, data) => {
                 try {
                     if (err) {
-                        console.log('Server 酱发送通知调用API失败😞\n', err);
+                        console.log('😞Server酱发送通知调用API失败', err);
                     } else {
                         // server酱和Server酱·Turbo版的返回json格式不太一样
                         if (data.errno === 0 || data.data.errno === 0) {
-                            console.log('Server 酱发送通知消息成功🎉\n');
+                            console.log('🎉Server酱发送通知消息成功');
                         } else if (data.errno === 1024) {
                             // 一分钟内发送相同的内容会触发
-                            console.log(`Server 酱发送通知消息异常 ${data.errmsg}\n`);
+                            console.log(`😞Server酱发送通知消息异常 ${data.errmsg}`);
                         } else {
-                            console.log(`Server 酱发送通知消息异常 ${JSON.stringify(data)}`);
+                            console.log(`😞Server酱发送通知消息异常 ${JSON.stringify(data)}`);
                         }
                     }
                 } catch (e) {
@@ -1505,10 +1496,6 @@ async function sendNotify(text, desp, params = {}) {
             console.info(text + '在 SKIP_PUSH_TITLE 环境变量内，跳过推送');
             return;
         }
-    }
-
-    if (push_config.HITOKOTO !== 'false') {
-        desp += '\n\n' + (await one());
     }
 
     await Promise.all([

@@ -1,12 +1,11 @@
 /*
-变量名kekoukeleba  
+环境变量ICOKE  
 抓小程序可口可乐吧 member-api.icoke.cn/api  Headers中 authorization  去掉Bearer   多账号&连接
 */
 const { Env } = require('./tools/env');
 const $ = new Env("可口可乐吧");
 let ckName = `ICOKE`;
 const axios = require("axios");
-const defaultUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.31(0x18001e31) NetType/WIFI Language/zh_CN miniProgram"
 
 class Public {
 	request(options) {
@@ -42,14 +41,12 @@ class Task extends Public {
 		try {
 			let { data: res } = await this.request(options);
 			if (res.success == true) {
-				$.log(`✅签到成功 获得【${res.point}】快乐瓶`)
+				$.log(`✅签到成功：获得【${res.point}】快乐瓶`)
 			} else {
-				$.log(`❌签到失败`)
-				console.log(res);
+				$.log(`❌签到失败：${res.message}`)
 			}
 		} catch (e) {
 			console.log(e);
-
 		}
 	}
 	async userInfo() {
@@ -72,13 +69,14 @@ class Task extends Public {
 		}
 		try {
 			let { data: res } = await this.request(options);
-			$.log(`目前还剩【${res.point}】瓶 `)
+			$.log(`🥤目前可用【${res.point}】快乐瓶 `)
 		} catch (e) {
 			console.log(e);
 		}
 	}
 	async run() {
 		await this.userInfo();
+        await $.wait(1000, 5000);
 		await this.addSign();
 	}
 }
