@@ -7,6 +7,7 @@
  */ 
 const axios = require('axios');
 const https = require('https');
+const fs = require('fs');
 
 // ===================== 【全局配置区】可根据需求调整 =====================
 const CONFIG = {
@@ -85,6 +86,7 @@ function log(type, message, isDeveloperLog = false) {
     const validType = ['success', 'info', 'warn', 'error'].includes(type) ? type : 'info';
     const prefix = prefixes[validType];
     console.log(`${prefix} ${message}`);
+    fs.appendFileSync("summary.txt", `${prefix} ${message}\n`);
 }
 
 const logger = {
@@ -103,14 +105,14 @@ const logger = {
  * 版本检测函数：请求远程版本，与本地对比，不一致则退出
  */
 async function checkVersion() {
-    logger.userInfo('开始执行版本检测...');
+    // logger.userInfo('开始执行版本检测...');
     try {
         // 发送GET请求获取远程版本
         const response = await versionAxios.get(CONFIG.version.checkUrl);
         const remoteVersion = response.data?.version;
         
         // 开发者日志打印完整响应
-        logger.devInfo(`版本检测响应：${JSON.stringify(response.data)}`);
+        // logger.devInfo(`版本检测响应：${JSON.stringify(response.data)}`);
 
         if (!remoteVersion) {
             logger.userError('远程版本信息获取失败，响应无version字段');
@@ -119,7 +121,7 @@ async function checkVersion() {
 
         // 版本对比
         if (remoteVersion === CONFIG.version.local) {
-            logger.userSuccess(`版本检测通过：本地版本 ${CONFIG.version.local} | 远程版本 ${remoteVersion}`);
+            // logger.userSuccess(`版本检测通过：本地版本 ${CONFIG.version.local} | 远程版本 ${remoteVersion}`);
         } else {
             logger.userError(`版本不一致，脚本退出！本地版本 ${CONFIG.version.local} | 远程版本 ${remoteVersion}`);
             process.exit(1);

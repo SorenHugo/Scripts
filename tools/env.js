@@ -57,16 +57,16 @@ function Env(t, s) {
             return String(v);
         }
         async sendMsg() {
-            this.log("📣发送通知")
             let message = this.notifyStr.join("\n");
             if (this.isNode()) {
-                try {
-                    const { sendNotify } = require("./sendNotify.js")
-                    await sendNotify(this.name, message);
-                } catch (e) {
-                    console.error(e.code === "MODULE_NOT_FOUND" ? "❌发送通知失败：未找到 sendNotify.js 模块" : `❌发送通知失败：sendNotify.js 内部错误 (${e.message})`);
-                }
-
+                const fs = require("fs");
+                fs.appendFileSync('summary.txt', `${message}\n`);
+                // try {
+                //     const { sendNotify } = require("./sendNotify.js")
+                //     await sendNotify(this.name, message);
+                // } catch (e) {
+                //     console.error(e.code === "MODULE_NOT_FOUND" ? "❌发送通知失败：未找到 sendNotify.js 模块" : `❌发送通知失败：sendNotify.js 内部错误 (${e.message})`);
+                // }
             }
         }
         isNode() {
