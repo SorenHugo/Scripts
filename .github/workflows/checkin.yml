@@ -49,3 +49,8 @@ jobs:
         run: node babycare.js
         env:
           BABYCARE: ${{ secrets.BABYCARE }}
+
+      - name: Checkin aima
+        run: node aima.js
+        env:
+          AIMA: ${{ secrets.AIMA }}
