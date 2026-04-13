@@ -37,16 +37,6 @@ jobs:
         env:
           MTF: ${{ secrets.MTF }}
 
-      - name: Checkin icoke
-        run: node icoke.js
-        env:
-          ICOKE: ${{ secrets.ICOKE }}
-
-      - name: Checkin babycare
-        run: node babycare.js
-        env:
-          BABYCARE: ${{ secrets.BABYCARE }}
-
       - name: Checkin aima
         run: node aima.js
         env:
