@@ -1,9 +1,7 @@
-/*
-爱玛会员俱乐部
-环境变量 access-token（支持多账号，用 & 或换行分隔）
-*/
+// 爱玛出行会员 access-token
+
 const { Env } = require("./tools/env")
-const $ = new Env("爱玛会员俱乐部");
+const $ = new Env("爱玛出行会员");
 const axios = require('axios')
 
 // ================== 配置区 ==================
@@ -92,7 +90,7 @@ async function signIn(token, index) {
   }
 
   if (tokens.length === 0) {
-    $.msg("❌ 未找到 access-token，请配置环境变量 'AIMA'");
+    $.log("❌ 未找到 access-token，请配置环境变量 'AIMA'");
     return;
   }
 
@@ -107,8 +105,6 @@ async function signIn(token, index) {
     }
   }
 
-  // 发送通知
-  //await $.sendMsg($.logs.join("\n"));
 })()
   .catch((e) => console.log(e))
   .finally(() => $.done());
