@@ -38,7 +38,8 @@ class Task {
         }
         let { data: result } = await axios.request(options);
         if (result?.code == 0) {
-            $.log(`✅查询成功：当前手机号${result.data.mobile}，用户昵称为${result.data.username}`);
+            const maskedMobile = result.data.mobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+            $.log(`✅查询成功：当前手机号${maskedMobile}，用户昵称为[${result.data.username}]`);
         } else {
             $.log(`❌查询失败：原因未知`);
             console.log(result);

@@ -82,11 +82,9 @@ async function signIn(token, index) {
 !(async () => {
   // 获取 access-token（支持多账号）
   let tokens = [];
-  if ($.isNode()) {
-    const env = process.env.AIMA;
-    if (env) {
-      tokens = env.split(/&|\n/).filter(t => t.trim());
-    }
+  const env = process.env.AIMA;
+  if (env) {
+    tokens = env.split(/&|\n/).filter(t => t.trim());
   }
 
   if (tokens.length === 0) {

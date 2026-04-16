@@ -42,6 +42,11 @@ jobs:
         env:
           AIMA: ${{ secrets.AIMA }}
 
+      - name: Checkin decathlon
+        run: node decathlon.js
+        env:
+          DECATHLON: ${{ secrets.DECATHLON }}
+
       - name: Send message to serverchan
         run: node push_to_serverchan.js
         env:
